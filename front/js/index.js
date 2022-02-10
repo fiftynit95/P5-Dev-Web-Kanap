@@ -38,10 +38,5 @@ const displayProduct = (article) => {
     productArticle.appendChild(productDescription);
 };
 
-//const displayProduct =document.getElementById("items").textContent
-    // récupérer l'id de la section de l'index.html
-    // création html d'un produit
-
-
 
 getProducts(url);
