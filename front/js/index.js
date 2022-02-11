@@ -4,10 +4,10 @@ const getProducts = async(url) => {
     const response = await fetch(url);
     const articles = await response.json();
 
-    articles.forEach((article) => displayProduct(article));
+    articles.forEach((article) => displayProducts(article));
 }
 
-const displayProduct = (article) => {
+const displayProducts = (article) => {
     console.log(article);
 
     //Insertion de l'élement "a"
