@@ -28,11 +28,22 @@ const displayProduct = (article) =>{
     let itemDescription = document.createElement("p")
     itemDescription.innerHTML=article.description;
     document.getElementById("description").appendChild(itemDescription);
-
+    
+    
+    article.colors.forEach((colors) => {
+        let colorsSelect = document.createElement("option")
+        colorsSelect.innerHTML = `${colors}`;
+        colorsSelect.value = `${colors}`;
+        document.querySelector("#colors").appendChild(colorsSelect);
+    });
+    
 }
 
 
+
 getProduct();
+
+              
 
 let dataArr = [];
 let dataObj = {
