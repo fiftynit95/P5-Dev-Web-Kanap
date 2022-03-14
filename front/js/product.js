@@ -17,49 +17,85 @@ const displayProduct = (article) =>{
     itemImg.alt = article.altTxt;
     document.querySelector(".item__img").appendChild(itemImg);
 
-    let itemName= document.createElement("h1");
-    itemName.innerHTML=article.name;
-    document.getElementById("title").appendChild(itemName);
+    //let itemName= document.createElement("h1");
+    //itemName.innerHTML=article.name;
+    document.getElementById("title").innerHTML = article.name
+    //.appendChild(itemName);
 
-    let itemPrice = document.createElement("p");
-    itemPrice.innerHTML=article.price;
-    document.getElementById("price").appendChild(itemPrice);
+    //let itemPrice = document.createElement("p");
+    //itemPrice.innerHTML=article.price;
+    document.getElementById("price").innerHTML=article.price;
+    //.appendChild(itemPrice);
 
     let itemDescription = document.createElement("p")
     itemDescription.innerHTML=article.description;
     document.getElementById("description").appendChild(itemDescription);
     
     
-    article.colors.forEach((colors) => {
-        let colorsSelect = document.createElement("option")
-        colorsSelect.innerHTML = `${colors}`;
-        colorsSelect.value = `${colors}`;
-        document.querySelector("#colors").appendChild(colorsSelect);
+    article.colors.forEach((color) => {
+        let colorSelect = document.createElement("option")
+        colorSelect.innerHTML = color;
+        colorSelect.value = color;
+        document.querySelector("#colors").appendChild(colorSelect);
     });
-    
+
+    let button = document.getElementById("addToCart")
+    button.addEventListener("click", () => {
+        addCart(article)
+})
 }
-
-
 
 getProduct();
 
-              
+const addCart=(article) => {
+    
+        let articleArray = JSON.parse(localStorage.getItem("article")) ?? null;
 
-let dataArr = [];
-let dataObj = {
-    'name' : 'Tom'
-};
-dataArr.push(dataObj);
-dataArr.push(dataObj);
-dataArr.push(dataObj);
-dataArr.push(dataObj);
-dataArr.push(dataObj);
-dataArr.push(dataObj);
+        let select=document.getElementById ("colors")
+        let quantity=document.getElementById("quantity")
 
-localStorage.setItem('myCat', JSON.stringify(dataArr));
+        console.log(quantity.value);
+        console.log(articleArray);
 
-var cat = localStorage.getItem('myCat');
-console.log(JSON.parse(cat));
+console.log(article);
 
-//localStorage.removeItem('myCat');
-//localStorage.clear();
+        if(articleArray===null){
+            articleArray=[];
+            pushCart(articleArray, article._id, select.value, quantity.value);  
+        } 
+        else {            
+            pushCart(articleArray, article._id, select.value, quantity.value);         
+        }
+        
+
+    
+}
+         
+const pushCart = (articleArray, id, color, quantity) => {
+    
+    if (articleArray.some(articles => articles.id === id && articles.color === color)) {
+        console.log('id et color présent');
+        articleArray = articleArray.map(article => {
+            if (article.id === id && article.color === color) {
+                article.quantity += +quantity;
+            }
+            return article;
+        });
+
+        console.log('id et color présent');
+        
+    } else {
+        const addDataToArray = {
+            id: id,
+            color: color,
+            quantity: +quantity,
+        };
+        articleArray.push(addDataToArray);
+    }
+
+    localStorage.setItem("article",JSON.stringify(articleArray));
+    
+
+    
+}
+
